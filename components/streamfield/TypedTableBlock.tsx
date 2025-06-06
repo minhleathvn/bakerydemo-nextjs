@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import type { recipeBlocks } from '@/models/blocks/recipes';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 export default function TypedTableBlock({
   block: { value },
@@ -19,39 +20,48 @@ export default function TypedTableBlock({
       case 'object':
         if ('id' in cell) {
           return (
-            <Image
-              src={cell.meta.download_url}
-              alt={cell.title}
-              width={100}
-              height={100}
-            />
+            <div className="flex justify-center">
+              <Image
+                src={cell.meta.download_url}
+                alt={cell.title}
+                width={100}
+                height={100}
+                className="rounded object-cover"
+              />
+            </div>
           );
         }
-        return <pre>{JSON.stringify(cell, null, 2)}</pre>;
+        return <pre className="text-xs bg-muted p-2 rounded">{JSON.stringify(cell, null, 2)}</pre>;
     }
   };
 
   return (
-    <figure>
-      <table>
-        <thead>
-          <tr>
-            {columns.map((column, i) => (
-              <th key={i}>{column.heading}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row, i) => (
-            <tr key={i}>
-              {row.values.map((cell, j) => (
-                <td key={j}>{renderCell(cell)}</td>
+    <figure className="my-6">
+      <div className="rounded-lg border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {columns.map((column, i) => (
+                <TableHead key={i}>{column.heading}</TableHead>
               ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {caption && <figcaption>{caption}</figcaption>}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {rows.map((row, i) => (
+              <TableRow key={i}>
+                {row.values.map((cell, j) => (
+                  <TableCell key={j}>{renderCell(cell)}</TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      {caption && (
+        <figcaption className="mt-2 text-sm text-center text-muted-foreground">
+          {caption}
+        </figcaption>
+      )}
     </figure>
   );
 }
