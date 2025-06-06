@@ -12,22 +12,33 @@ export default async function RecipeIndexPage({
   });
 
   return (
-    <>
-      <section>
-        <h1>{page.title}</h1>
-        <p>{page.introduction}</p>
-      </section>
-
-      <section>
-        {recipes.length > 0 ? (
-          recipes.map((recipe) => <BlogCard key={recipe.id} page={recipe} />)
-        ) : (
-          <p>
-            Oh, snap. Looks like we were too busy baking to write any recipes.
-            Sorry.
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      {/* Header Section */}
+      <section className="text-center mb-12">
+        <h1 className="section-title">{page.title}</h1>
+        {page.introduction && (
+          <p className="text-lg text-brown-600 max-w-3xl mx-auto leading-relaxed">
+            {page.introduction}
           </p>
         )}
       </section>
-    </>
+
+      {/* Recipes Grid */}
+      <section>
+        {recipes.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {recipes.map((recipe) => (
+              <BlogCard key={recipe.id} page={recipe} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-lg text-brown-600">
+              Oh, snap. Looks like we were too busy baking to write any recipes. Sorry.
+            </p>
+          </div>
+        )}
+      </section>
+    </div>
   );
 }

@@ -8,43 +8,46 @@ interface BreadCardProps {
 
 export default function BreadCard({ bread }: BreadCardProps) {
   return (
-    <article>
+    <article className="card group">
       {bread.image && (
-        <Link href={`/breads/${bread.meta.slug}`}>
-          <figure>
+        <Link href={`/breads/${bread.meta.slug}`} className="block">
+          <div className="aspect-w-16 aspect-h-12 overflow-hidden">
             <Image
               src={bread.image.meta.download_url}
               alt={bread.image.title}
-              width={180}
-              height={180}
+              width={400}
+              height={300}
               loading="lazy"
+              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
             />
-          </figure>
+          </div>
         </Link>
       )}
-      <div>
-        {
-          // FIXME: This should've used an h2, but we use h3 to test the
-          // accessibility checker
-        }
-        <h3>
-          <Link href={`/breads/${bread.meta.slug}`}>{bread.title}</Link>
+      <div className="card-body">
+        <h3 className="text-xl font-semibold text-brown-800 mb-3">
+          <Link 
+            href={`/breads/${bread.meta.slug}`}
+            className="hover:text-bakery-700 transition-colors"
+          >
+            {bread.title}
+          </Link>
         </h3>
+        
         {(bread.origin || bread.bread_type) && (
-          <dl>
+          <div className="space-y-2 text-sm text-brown-600">
             {bread.origin && (
-              <>
-                <dt>Origin</dt>
-                <dd>{bread.origin.title}</dd>
-              </>
+              <div className="flex justify-between">
+                <span className="font-medium">Origin:</span>
+                <span>{bread.origin.title}</span>
+              </div>
             )}
             {bread.bread_type && (
-              <>
-                <dt>Type</dt>
-                <dd>{bread.bread_type.title}</dd>
-              </>
+              <div className="flex justify-between">
+                <span className="font-medium">Type:</span>
+                <span>{bread.bread_type.title}</span>
+              </div>
             )}
-          </dl>
+          </div>
         )}
       </div>
     </article>

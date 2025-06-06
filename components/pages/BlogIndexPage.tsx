@@ -20,30 +20,39 @@ export default async function BlogIndexPage({
   });
 
   return (
-    <>
-      <section>
-        <h1>{page.title}</h1>
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      {/* Header Section */}
+      <section className="text-center mb-12">
+        <h1 className="section-title">{page.title}</h1>
         {searchTags ? (
-          <p>
-            Viewing all blog posts sorted by the tag <span>{searchTags}</span>.
+          <p className="text-lg text-brown-600 max-w-3xl mx-auto leading-relaxed">
+            Viewing all blog posts sorted by the tag <span className="font-semibold text-bakery-700">{searchTags}</span>.
           </p>
         ) : (
-          <p>{page.introduction}</p>
+          page.introduction && (
+            <p className="text-lg text-brown-600 max-w-3xl mx-auto leading-relaxed">
+              {page.introduction}
+            </p>
+          )
         )}
       </section>
 
+      {/* Blog Posts Grid */}
       <section>
-        <div>
-          {posts.length > 0 ? (
-            posts.map((blog) => <BlogCard key={blog.id} page={blog} />)
-          ) : (
-            <p>
-              Oh, snap. Looks like we were too busy baking to write any blog
-              posts. Sorry.
+        {posts.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {posts.map((blog) => (
+              <BlogCard key={blog.id} page={blog} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-lg text-brown-600">
+              Oh, snap. Looks like we were too busy baking to write any blog posts. Sorry.
             </p>
-          )}
-        </div>
+          </div>
+        )}
       </section>
-    </>
+    </div>
   );
 }
