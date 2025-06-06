@@ -23,13 +23,16 @@ interface BaseStreamBlockProps {
 
 export default function BaseStreamBlock({ blocks }: BaseStreamBlockProps) {
   return (
-    <div>
+    <div className="streamfield-content">
       {blocks.map((block) => {
         const Block = blockComponents[block.type] as BlockComponent;
         return Block ? (
           <Block key={block.id} block={block} />
         ) : (
-          <pre key={block.id}>{JSON.stringify(block, null, 2)}</pre>
+          <div key={block.id} className="my-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-red-700 font-medium mb-2">Unsupported block type: {block.type}</p>
+            <pre className="text-xs text-red-600 overflow-x-auto">{JSON.stringify(block, null, 2)}</pre>
+          </div>
         );
       })}
     </div>

@@ -14,40 +14,60 @@ export default function BlogCard({ page }: BlogCardProps) {
     : page.recipe_person_relationship;
 
   return (
-    <article>
+    <article className="card group">
       {isBlog && page.image && (
-        <Link href={page.meta.html_path}>
-          <figure>
+        <Link href={page.meta.html_path} className="block">
+          <div className="overflow-hidden">
             <Image
               src={page.image.meta.download_url}
               alt={page.image.title}
-              width={320}
+              width={400}
               height={240}
               loading="lazy"
+              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
             />
-          </figure>
+          </div>
         </Link>
       )}
-      <div>
-        <h2>
-          <Link href={page.meta.html_path}>{page.title}</Link>
+      <div className="card-body">
+        <h2 className="text-xl font-semibold text-brown-800 mb-3">
+          <Link 
+            href={page.meta.html_path}
+            className="hover:text-bakery-700 transition-colors line-clamp-2"
+          >
+            {page.title}
+          </Link>
         </h2>
-        {page.introduction && <p>{page.introduction}</p>}
-        <p>
-          {page.date_published && (
-            <>
-              {formatDate(page.date_published)}
-              {relation.length > 0 && ' by '}
-            </>
+        
+        {page.introduction && (
+          <p className="text-brown-600 mb-4 line-clamp-3">{page.introduction}</p>
+        )}
+        
+        <div className="text-sm text-brown-500 flex items-center justify-between">
+          <div>
+            {page.date_published && (
+              <time dateTime={page.date_published}>
+                {formatDate(page.date_published)}
+              </time>
+            )}
+          </div>
+          
+          {relation.length > 0 && (
+            <div className="flex items-center space-x-1">
+              <span>by</span>
+              <span className="font-medium">
+                {relation.map((rel, index) => (
+                  <span key={rel.person.id}>
+                    {rel.person.first_name} {rel.person.last_name}
+                    {index < relation.length - 1 && ', '}
+                  </span>
+                ))}
+              </span>
+            </div>
           )}
-          {relation.map((rel, index) => (
-            <span key={rel.person.id}>
-              {rel.person.first_name} {rel.person.last_name}
-              {index < relation.length - 1 && ', '}
-            </span>
-          ))}
-        </p>
+        </div>
       </div>
     </article>
   );
 }
+

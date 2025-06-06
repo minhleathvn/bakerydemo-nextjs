@@ -22,26 +22,25 @@ export function NavigationLinks({ menuItems }: NavigationLinksProps) {
     return normalizePath(pathname) === normalizePath(path) ? 'page' : undefined;
   };
 
+  const linkClasses = (path: string) => {
+    const isActive = isCurrentPage(path) === 'page';
+    return `text-brown-700 hover:text-bakery-700 font-medium transition-colors ${
+      isActive ? 'text-bakery-700 border-b-2 border-bakery-700' : ''
+    }`;
+  };
+
   return (
     <>
-      <Link href="/" aria-current={isCurrentPage('/')}>
-        The Wagtail Bakery
-      </Link>
-
-      <nav aria-label="Main">
-        <ul>
-          {menuItems.map((item) => (
-            <li key={item.id}>
-              <Link
-                href={item.meta.html_path}
-                aria-current={isCurrentPage(item.meta.html_path)}
-              >
-                {item.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      {menuItems.map((item) => (
+        <Link
+          key={item.id}
+          href={item.meta.html_path}
+          aria-current={isCurrentPage(item.meta.html_path)}
+          className={linkClasses(item.meta.html_path)}
+        >
+          {item.title}
+        </Link>
+      ))}
     </>
   );
 }
