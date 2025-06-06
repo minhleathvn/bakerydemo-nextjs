@@ -24,7 +24,9 @@ export default function BreadCard({ bread }: BreadCardProps) {
         </Link>
       )}
       <div className="card-body">
-        <h3 className="text-xl font-semibold text-brown-800 mb-3">
+        {/* FIXME: This should've used an h2, but we use h3 to test the
+          accessibility checker */}
+        <h3  className="text-xl font-semibold text-brown-800 mb-3">
           <Link 
             href={`/breads/${bread.meta.slug}`}
             className="hover:text-bakery-700 transition-colors"
